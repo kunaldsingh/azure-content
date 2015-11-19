@@ -13,7 +13,7 @@
    ms.topic="article"
    ms.tgt_pltfrm="NA"
    ms.workload="NA"
-   ms.date="10/20/2015"
+   ms.date="11/18/2015"
    ms.author="kunalds"/>
 
 
@@ -61,6 +61,7 @@ If you have an existing cluster that does not have WAD deployed you can add WAD 
 Create two files WadConfigUpdate.json and WadConfigUpdateParams.json with the JSON below.
 
 ##### WadConfigUpdate.json
+
 ```json
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
@@ -141,6 +142,7 @@ Create two files WadConfigUpdate.json and WadConfigUpdateParams.json with the JS
 
 ##### WadConfigUpdateParams.json
 Replace the vmNamePrefix with the prefix you chose for VM names while creating your cluster and edit the vmStorageAccountName to be the the storage account where you want to upload the logs from the VMs.
+
 ```json
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
@@ -158,7 +160,9 @@ Replace the vmNamePrefix with the prefix you chose for VM names while creating y
     }
 }
 ```
+
 After creating the json files as mentioned above and having changed them for the specifics of your environment, call this command passing in the name of the resource group for your Service Fabric cluster. Once this command is run successfully WAD will be deployed on all the VMs and will start uploading the logs from the cluster to tables in the specified Azure Storage account. Additionally, before calling this deployment command you may need to do some setup including adding your Azure account(`Add-AzureAccount`), choosing the right subscription(`Select-AzureSubscription`) and switching to ARM mode(`Switch-AzureMode AzureResourceManager`).
+
 ```powershell
 New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $pathToWADConfigJsonFile -TemplateParameterFile $pathToParameterFile –Verbose
 ```
@@ -173,6 +177,7 @@ To see the steps for creating an Operational Insights workspace see the article 
 
 ### Configure Operational Insights workspace to show the cluster logs
 Once you have created the Operational Insights workspace as described above the next step is to configure the worksplace to pull the logs from the Azure tables where they are being uploaded from the cluster by WAD. Currently this configuration is not possible through the Operational Insights Portal and can only be done through Powershell commands. Run this PS script.
+
 ```powershell
 <#
     This script will configure an Operations Management Suite workspace (aka Operational Insights workspace) to read
@@ -272,6 +277,7 @@ if ($existingConfig) {
     New-AzureOperationalInsightsStorageInsight -Workspace $workspace -Name $insightsName -StorageAccountResourceId $storageAccount.ResourceId -StorageAccountKey $key -Tables $validTables -Containers $validContainers
 }
 ```
+
 Once you have configured the Operational Insights workspace to read from the Azure Tables in your storage account, you should log into the Azure Portal, and look up the Storage tab for the Operational Insights resource. It should show something like this:
 ![Operational Insights Storage Configuration in the Azure Portal](./media/service-fabric-diagnostics-how-to-setup-wad-operational-insights/oi-connected-tables-list.png)
 
