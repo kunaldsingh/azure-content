@@ -47,14 +47,7 @@ To deploy WAD to the VMs in the cluster as part of cluster creation the Diagnost
 ![WAD setting in Portal for cluster creation](./media/service-fabric-diagnostics-how-to-setup-wad-operational-insights/portal-cluster-creation-diagnostics-setting.png)
 
 ### Deploy WAD as part of cluster creation using ARM
-To create a cluster using ARM you need to add the WAD configuration JSON to the Full cluster ARM template before creating the cluster. We provide a sample 5 VM Cluster ARM template with WAD configuration added to it as part of our ARM template samples, you can see it at this location in Azure Samples gallery: [Five node cluster with WAD ARM template sample](https://github.com/Azure/azure-quickstart-templates/tree/master/service-fabric-cluster-5-node-1-nodetype-wad). 
-
-To see the WAD setting in the ARM template search for "WadCfg". To create a cluster with this template just press the "Deploy to Azure" button available at the link above.
-Alternatively you can download the ARM sample, makes changes to it and create a cluster with the modified template by using the `New-AzureResourceGroupDeployment` command in an Azure Powershell window. See below for the parameters you will need to pass in to the command. Additionally, before calling this deployment command you may need to do some setup including adding your Azure account(`Add-AzureAccount`), choosing a subscription(`Select-AzureSubscription`), switching to ARM mode(`Switch-AzureMode AzureResourceManager`) and creating the resource group if you haven't already(`New-AzureResourceGroup`).
-
-```powershell
-New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $pathToARMConfigJsonFile -TemplateParameterFile $pathToParameterFile –Verbose
-```
+To create a cluster using ARM you need to add the WAD configuration JSON to the Full cluster ARM template before creating the cluster. We provide sample Cluster ARM templates with WAD configuration added to them. Checkout [this article](service-fabric-cluster-creation-via-arm.md) that describes how you can create Service Fabric clusters through ARM and select the templates which have WAD in their name from the set of sample ARM templates.
 
 ### <a name="deploywadarm"></a>Deploy WAD to an existing cluster
 If you have an existing cluster that does not have WAD deployed you can add WAD with these steps.
@@ -161,7 +154,13 @@ Replace the vmNamePrefix with the prefix you chose for VM names while creating y
 }
 ```
 
-After creating the json files as mentioned above and having changed them for the specifics of your environment, call this command passing in the name of the resource group for your Service Fabric cluster. Once this command is run successfully WAD will be deployed on all the VMs and will start uploading the logs from the cluster to tables in the specified Azure Storage account. Additionally, before calling this deployment command you may need to do some setup including adding your Azure account(`Add-AzureAccount`), choosing the right subscription(`Select-AzureSubscription`) and switching to ARM mode(`Switch-AzureMode AzureResourceManager`).
+After creating the json files as mentioned above and having changed them for the specifics of your environment, call this command passing in the name of the resource group for your Service Fabric cluster. Once this command is run successfully WAD will be deployed on all the VMs and will start uploading the logs from the cluster to tables in the specified Azure Storage account. 
+Additionally, before calling this deployment command you may need to do some setup in Azure Powershell:
+1. Adding your Azure account using `Add-AzureAccount` command. This sets up the credentials to do Azure deployment.
+2. Choosing the right subscription using `Select-AzureSubscription`. You need to use the right Azure subscription if you have more than one and it should match the one used to create the cluster.
+3. Switching to ARM mode with `Switch-AzureMode AzureResourceManager` command. This will set up the Azure Powershell window so you can call ARM commands through it.
+
+For the command below you should use the same resource group that the Service Fabric cluster belongs to.
 
 ```powershell
 New-AzureResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $pathToWADConfigJsonFile -TemplateParameterFile $pathToParameterFile –Verbose
