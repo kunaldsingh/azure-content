@@ -47,7 +47,7 @@ To deploy WAD to the VMs in the cluster as part of cluster creation the Diagnost
 ![WAD setting in Portal for cluster creation](./media/service-fabric-diagnostics-how-to-setup-wad-operational-insights/portal-cluster-creation-diagnostics-setting.png)
 
 ### Deploy WAD as part of cluster creation using ARM
-To create a cluster using ARM you need to add the WAD configuration JSON to the Full cluster ARM template before creating the cluster. We provide sample Cluster ARM templates with WAD configuration added to them. Checkout [this article](service-fabric-cluster-creation-via-arm.md) that describes how you can create Service Fabric clusters through ARM and select the templates which have WAD in their name from the set of sample ARM templates.
+To create a cluster using ARM you need to add the WAD configuration JSON to the Full cluster ARM template before creating the cluster. We provide sample Cluster ARM templates with WAD configuration added to them. Check out [this article](service-fabric-cluster-creation-via-arm.md) that describes how you can create Service Fabric clusters through ARM and select the templates which have WAD in their name from the set of sample ARM templates.
 
 ### <a name="deploywadarm"></a>Deploy WAD to an existing cluster
 If you have an existing cluster that does not have WAD deployed you can add WAD with these steps.
