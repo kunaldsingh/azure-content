@@ -120,10 +120,10 @@ Create two files WadConfigUpdate.json and WadConfigUpdateParams.json with the JS
                 }
             }
     },
-                    "StorageAccount": "[parameters('applicationDiagnosticsStorageAccountNamee')]"
+                    "StorageAccount": "[parameters('applicationDiagnosticsStorageAccountName')]"
                 },
                 "protectedSettings": {
-                    "storageAccountName": "[parameters('applicationDiagnosticsStorageAccountNamee')]",
+                    "storageAccountName": "[parameters('applicationDiagnosticsStorageAccountName')]",
                     "storageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('applicationDiagnosticsStorageAccountName')),'2015-05-01-preview').key1]",
                     "storageAccountEndPoint": "https://core.windows.net/"
                 }
